@@ -1,0 +1,36 @@
+**************** Useful Commands ****************
+sudo apt update
+sudo apt install python3-pip
+sudo apt install python3.12-venv
+python3 -m venv airflow_venv
+source airflow_venv/bin/activate
+sudo pip install pandas 
+sudo apt install s3fs
+sudo pip install fsspec
+sudo apt install apache-airflow
+sudo pip install apache-airflow-providers-postgres
+pip install awscli
+sudo apt install curl ca-certificates
+sudo install -d /usr/share/postgresql-common/pgdg
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo apt update
+sudo apt -y install postgresql
+
+## Installing the aws_s3 extension
+psql -h database-hm.c3m88y2u660c.us-west-2.rds.amazonaws.com -p 5432 -U postgres -W
+
+## Link to install aws extension
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PostgreSQL.S3Import.InstallExtension.html
+
+## Attach policy to role
+aws iam attach-role-policy \
+    --policy-arn arn:aws:iam::235494797938:policy/postgresS3Policy-yml-4
+    --role-name postgresql-S3-Role-yml-4
+
+## Attach role to database
+aws rds add-role-to-db-instance \
+   --db-instance-identifier database-hm \
+   --feature-name s3Import \
+   --role-arn arn:aws:iam::235494797938:role/postgresql-S3-Role-yml-4   \
+   --region us-west-2
